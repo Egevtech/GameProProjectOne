@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "Logging/LogMacros.h"
+#include "Public/PlayerHpComponent.h"
 #include "GameProProjectOneCharacter.generated.h"
 
 class USpringArmComponent;
@@ -30,6 +31,8 @@ class AGameProProjectOneCharacter : public ACharacter
 	/** Follow camera */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Components", meta = (AllowPrivateAccess = "true"))
 	UCameraComponent* FollowCamera;
+
+	
 	
 protected:
 
@@ -54,8 +57,12 @@ public:
 	/** Constructor */
 	AGameProProjectOneCharacter();	
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Stats", meta = (ArrayClamp = "true"))
+	UPlayerHpComponent* hp;
+
 protected:
 
+	
 	/** Initialize input action bindings */
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
@@ -84,6 +91,16 @@ public:
 	/** Handles jump pressed inputs from either controls or UI interfaces */
 	UFUNCTION(BlueprintCallable, Category="Input")
 	virtual void DoJumpEnd();
+
+	/** Decrease player's healpoints by `hp` */
+	UFUNCTION(BlueprintCallable, Category="HP")
+	void Damage(int x);
+
+	UFUNCTION(BlueprintCallable, Category="HP")
+	void Heal(int x);
+
+	UFUNCTION(BlueprintCallable, Category="HP")
+	int GetHP();
 
 public:
 
